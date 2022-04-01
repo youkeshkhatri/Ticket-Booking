@@ -1,0 +1,185 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+
+<body>
+    <div>
+
+        <h2>Register your Account</h2>
+        <table>
+            <tr>
+                <td>Full Name:</td>
+                <td><input type="text" id="txtFullname" placeholder="Full Name" /></td>
+            </tr>
+
+            <tr>
+                <td>DOB:</td>
+                <td><input type="date" id="dob" /></td>
+            </tr>
+
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" id="txtUsername" placeholder="Username" /></td>
+            </tr>
+
+
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" id="txtPassword" placeholder="password" /></td>
+            </tr>
+
+            <tr>
+                <td>Confirm Password:</td>
+                <td><input type="password" id="confirmpassword" placeholder="Confirm password" /></td>
+            </tr>
+
+
+        </table>
+        <br />
+
+        <div id="message"></div>
+        <button id="btnSubmit">SUBMIT</button>
+        <button id="btnLoad">LOAD</button>
+
+    </div>
+    <br />
+
+
+    <div>
+        <p>Have an Account? <button type="button" onclick="location.href = '@Url.Action("index", "User")'">LOGIN</button> </p>
+    </div>
+
+</body>
+</html>
+
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        alert('Form loaded successfully');
+
+        $("#txtFullname").on({
+            mouseenter: function () {
+                $(this).css("background-color", "lightgray");
+            },
+            mouseleave: function () {
+                $(this).css("background-color", "lightblue");
+            },
+            click: function () {
+                $(this).css("background-color", "yellow");
+            }
+        });
+
+
+
+
+        $("#btnSubmit").click(function () {
+            //debugger;
+            var FullName = $("#txtFullname").val();
+            var DOB = $("#dob").val();
+            var Username = $("#txtUsername").val();
+            var Password = $("#txtPassword").val();
+            var Confirm_Password = $("#confirmpassword").val();
+
+
+            //ajax call
+
+            $.ajax({
+                url: "/User/AddUser",
+                type: "POST",
+                data: "{FullName:'" + FullName + "',DOB:'" + DOB + "',Username:'" + Username + "',Password:'" + Password
+                    + "',Confirm_Password:'" + Confirm_Password + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    if (data == true) {
+
+                        //var table
+                        alert("Data saved to Database");
+
+                        $("#txtFullname").val("");
+                        $("#dob").val("");
+                        $("#txtUsername").val("");
+                        $("#txtPassword").val("");
+                        $("#confirmpassword").val("");
+
+                    }
+                    else {
+                        alert("Failed to save data")
+                    }
+                },
+
+            });
+
+
+
+        });
+    });
+
+
+
+
+
+
+    $("#btnLoad").click(function () {
+        debugger;
+        LoadData();
+    });
+
+    function LoadData() {
+        $.ajax({
+            url: "/User/GetUser",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                if (data) {
+                    debugger;
+                    var table =
+                        "<table border=1>" +
+                        "<thead>" +
+                        "<td>Id</td>" +
+                        "<td>FullName</td>" +
+                        "<td>DOB</td> " +
+                        "<td>Username</td>" +
+                        "<td>Password</td>" +
+                        "<td>Confirm_Password</td>" +
+                        "</thead > " +
+                        "<tbody>";
+
+                    $.each(data, function (I, item) {
+                        table += "<tr><td>" + item.Id + "</td>";
+                        table += "<td>" + item.FullName + "</td>";
+                        table += "<td>" + item.DOB + "</td>";
+                        table += "<td>" + item.Username + "</td>";
+                        table += "<td>" + item.Password + "</td>";
+                        table += "<td>" + item.Confirm_Password + "</td></tr>";
+                    });
+
+                    table += "</tbody>";
+                    table += "</table>";
+
+                    $("#message").html(table);
+
+
+                }
+            }
+
+        });
+
+
+    }
+
+</script>

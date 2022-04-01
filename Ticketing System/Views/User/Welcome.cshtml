@@ -1,0 +1,307 @@
+﻿
+@{
+    ViewBag.Title = "Welcome";
+}
+
+@if (Session["username"] != null)
+{
+    <h2>Welcome @Session["username"].ToString()</h2>
+}
+
+<div>
+
+
+    <h2>Enter Details for Ticket</h2>
+    <table>
+        <tr>
+            <td>Date:</td>
+            <td><input type="date" id="txtDate" placeholder="Date" /></td>
+        </tr>
+
+        <tr>
+            <td>Full Name:</td>
+            <td><input type="text" id="txtFullname" placeholder="Full Name" /></td>
+        </tr>
+
+        <tr>
+            <td>Ticket Type:</td>
+            <td><select id="txtTicketType"></select></td>
+        </tr>
+
+        <tr>
+            <td>Price:</td>
+            <td><input type="number" id="Price" placeholder="Ticket Price" readonly="readonly" /></td>
+        </tr>
+
+        <tr>
+            <td>Total People:</td>
+            <td><input type="number" id="TotalPeople" placeholder=" 00" /></td>
+        </tr>
+
+        <tr>
+            <td>Discount:</td>
+            <td><input type="number" id="Discount" placeholder="Enter discount %" /></td>
+        </tr>
+
+        <tr>
+            <td>Net Amount:</td>
+            <td><input type="number" id="NetAmount" placeholder="Discounted Amount" readonly="readonly" /></td>
+        </tr>
+
+        <tr>
+            <td>Vat:</td>
+            <td><input type="number" id="VatAmount" placeholder="13% of Net Amount" readonly="readonly" /><br></td>
+        </tr>
+
+        <tr>
+            <td><b>Total Amount:</b></td>
+            <td><input type="number" id="TotalAmount" readonly="readonly" /></td>
+        </tr>
+
+
+    </table>
+    <br />
+
+    <button id="btnConfirm">Confirm</button>
+    <button id="btnView">View</button><br />
+    <br />
+    <div id="message"></div>
+
+    <table>
+        <tr>
+            <td>Total Ticket sold on:</td>
+            <td><input type="date" id="ticketsold" placeholder="Date" /></td>
+        </tr>
+    </table>
+    <button id="btnShow">Show</button>
+
+
+</div>
+
+
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+
+    $("document").ready(function () {
+        //alert('ready to load');
+
+        LoadTicketType();
+
+
+        //Cost Calculation
+        //without discount
+        $("#TotalPeople").blur(function () {
+            var TotalPeople = parseInt($("#TotalPeople").val());
+            var Price = parseInt($("#Price").val());
+            var NetAmount = TotalPeople * Price;
+
+            $("#NetAmount").val(NetAmount);
+
+            var TotalAmount = Price + (13 / 100 * NetAmount);
+            $("#TotalAmount").val(TotalAmount);
+
+        });
+
+        //after providing discount
+        $("#Discount").blur(function () {
+            var TotalPeople = parseInt($("#TotalPeople").val());
+            var Price = parseInt($("#Price").val());
+            var Amount = TotalPeople * Price;
+
+            var discount = parseInt($("#Discount").val());
+
+            var NetAmount = Amount - (discount / 100 * Amount);
+            $("#NetAmount").val(NetAmount);
+
+            var TotalAmount = NetAmount + (13 / 100 * NetAmount);
+            $("#TotalAmount").val(TotalAmount);
+
+        });
+
+
+
+        //select Ticket using dropdown
+        //For loading price of ticket
+
+        $("#txtTicketType").change(function () {
+            $.ajax({
+                url: " /User/GetTicketDetails",
+                type: "GET",
+                data: "id=" + $("#txtTicketType").val() + "",
+                contentType: "application/json; char=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    if (data) {
+                        debugger;
+                        $("#Price").val(data.Price);
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+
+            });
+        });
+
+
+        function LoadTicketType() {
+            $.ajax({
+                url: " /User/GetAll",
+                type: "GET",
+                data: "",
+                contentType: "application/json; char=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    if (data) {
+                        debugger;
+
+                        $.each(data, function (I, item) {
+                            $('#txtTicketType').append(`<option value="${item.Id}">
+                                       ${item.TicketName}
+                                  </option>`);
+                        });
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+
+            });
+        };
+
+
+        //For sending data to backend
+        //Inserting data
+        $("#btnConfirm").click(function () {
+            //debugger;
+            var Date = $("#txtDate").val();
+            var FullName = $("#txtFullname").val();
+            var ticketType = $("#txtTicketType").val();
+            var price = $("#Price").val();
+            var totalPeople = $("#TotalPeople").val();
+            var discount = $("#Discount").val();
+            var netAmount = $("#NetAmount").val();
+            var vat = 13;
+            var totalAmount = $("#TotalAmount").val();
+
+            //ajax call
+
+            $.ajax({
+                url: "/Welcome/AddCustomer",
+                type: "POST",
+                data: "{Date:'" + Date + "',TicketType:'" + FullName + "',TicketType:'" + ticketType + "',Price:'" + price
+                    + "',TotalPeople:'" + totalPeople + "',Discount:'" + discount + "',NetAmount:'" + netAmount
+                    + "',Vat:'" + vat + "',TotalAmount:'" + totalAmount + "'}",
+
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    //debugger;
+                    if (data == true) {
+
+                        alert("Data saved to Database");
+
+                        $("#txtDate").val("");
+                        $("#txtFullname").val("");
+                        $("#txtTicketType").val("");
+                        $("#Price").val("");
+                        $("#TotalPeople").val("");
+                        $("#Discount").val("");
+                        $("#NetAmount").val("");
+                        $("#TotalAmount").val("");
+                    }
+                    else {
+                        alert("Failed to save data")
+                    }
+                },
+
+            });
+
+
+
+        });
+
+    });
+
+
+
+
+    //data load from database
+
+    $("#btnView").click(function () {
+        //debugger;
+        LoadData();
+    });
+
+
+    function LoadData() {
+        $.ajax({
+            url: "/Welcome/GetCustomerList",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                //debugger;
+                if (data) {
+                    //debugger;
+                    var table =
+                        "<table border=4>" +
+                        "<thead>" +
+                        "<td>Date</td>" +
+                        "<td>FullName</td>" +
+                        "<td>TicketType</td>" +
+                        "<td>TotalPeople</td> " +
+                        "<td>Price</td>" +
+                        "<td>Discount</td>" +
+                        "<td>NetAmount</td>" +
+                        "<td>Vat</td>" +
+                        "<td>TotalAmount</td>" +
+                        "</thead > " +
+                        "<tbody>";
+
+                    $.each(data, function (I, item) {
+                        table += "<tr><td>" + item.Date + "</td>";
+                        table += "<td>" + item.FullName + "</td>";
+                        table += "<td>" + item.TicketType + "</td>";
+                        table += "<td>" + item.TotalPeople + "</td>";
+                        table += "<td>" + item.Price + "</td>";
+                        table += "<td>" + item.Discount + "</td>";
+                        table += "<td>" + item.NetAmount + "</td>";
+                        table += "<td>" + item.Vat + "</td>";
+                        table += "<td>" + item.TotalAmount + "</td></tr>";
+                    });
+
+                    table += "</tbody>";
+                    table += "</table>";
+
+                    $("#message").html(table);
+
+
+                }
+            }
+
+        });
+
+
+    };
+
+
+
+    $("#btnShow").click(function () {
+        var GetDate = $("#ticketsold").val();
+
+
+    });
+
+
+
+
+</script>
+
+
