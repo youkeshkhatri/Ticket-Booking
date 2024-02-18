@@ -60,7 +60,7 @@ namespace Ticketing_System.Controllers
             if(sdr.Read())
             {
                 Session["username"] = loginClass.UserName.ToString();
-                return RedirectToAction("Index", "Welcome");
+                return RedirectToAction("Index", "TicketBooking");
             }
             else
             {
@@ -70,32 +70,13 @@ namespace Ticketing_System.Controllers
             return View();
         }
 
-
-        /*
-         
-          if (sdr.Read())
-            {
-                Session["username"] = loginClass.UserName.ToString();
-                if (loginClass.IsLoggedIn)
-                {
-                    sqlquery = "Update dbo.tbl_UserDetails set IsLoggedIn = 1 where Username = @Username and Password = @Password";
-                    sqlcomm.ExecuteReader();
-                    return RedirectToAction("Welcome");
-                }
-
-                else
-                    return RedirectToAction("Index");
-            }
-         */
-
         //FOR TICKET DROPDOWN
-
         BLL_TicketType bLL_TicketType = null;
+
         public UserController()
         {
             bLL_TicketType = new BLL_TicketType();
         }
-
 
         [HttpGet]
         public JsonResult GetAll()

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Ticketing_System.Models
 {
     public class welcome
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "This field is required")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
         public string FullName { get; set; }

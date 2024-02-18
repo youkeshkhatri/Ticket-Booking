@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Ticketing_System.Business_Logic;
 using Ticketing_System.Models;
 
 namespace Ticketing_System.Controllers
 {
-    public class WelcomeController : Controller
+    public class TicketBookingController : Controller
     {
         // GET: Welcome
         public ActionResult Index()
@@ -53,8 +51,14 @@ namespace Ticketing_System.Controllers
 
         }
 
+        [HttpDelete]
+        public string DeleteTicket(int ticketId)
+        {
+            return "";
+        }
+
         [HttpGet]
-        public List<welcome> GetCustomer()
+        public List<welcome> GetCustomer(string date = null)
         {
             string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
             List<welcome> list = new List<welcome>();
@@ -62,7 +66,14 @@ namespace Ticketing_System.Controllers
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    cmd.CommandText = "select * from tbl_CustomerDetails";
+                    if (string.IsNullOrEmpty(date))
+                        cmd.CommandText = "select * from tbl_CustomerDetails";
+                    else
+                    {
+                        cmd.CommandText = "select * from tbl_CustomerDetails where Date = @date";
+                        cmd.Parameters.AddWithValue("@date", date);
+                    }
+
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.Connection = connection;
 
@@ -74,7 +85,8 @@ namespace Ticketing_System.Controllers
                         while (reader.Read())
                         {
                             welcome w = new welcome();
-                            w.Date = Convert.ToDateTime(reader["Date"]);
+                            w.Id = Convert.ToInt32(reader["Id"]);
+                            w.Date = reader["Date"].ToString();
                             w.FullName = reader["FullName"].ToString();
                             w.TicketType = reader["TicketType"].ToString();
                             w.Price = Convert.ToInt32(reader["Amount"]);
@@ -103,7 +115,7 @@ namespace Ticketing_System.Controllers
 
         public JsonResult GetCustomerListByDate(string date)
         {
-            return Json(GetCustomer(), JsonRequestBehavior.AllowGet);
+            return Json(GetCustomer(date), JsonRequestBehavior.AllowGet);
         }
 
     }

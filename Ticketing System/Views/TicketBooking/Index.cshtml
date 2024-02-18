@@ -1,4 +1,5 @@
-﻿
+﻿<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 @{
     ViewBag.Title = "Welcome";
 }
@@ -193,7 +194,7 @@
             //ajax call
 
             $.ajax({
-                url: "/Welcome/AddCustomer",
+                url: "/TicketBooking/AddCustomer",
                 type: "POST",
                 data: "{Date:'" + Date + "',FullName:'" + FullName + "',TicketType:'" + ticketType + "',Price:'" + price
                     + "',TotalPeople:'" + totalPeople + "',Discount:'" + discount + "',NetAmount:'" + netAmount
@@ -243,7 +244,7 @@
 
     function LoadData() {
         $.ajax({
-            url: "/Welcome/GetCustomerList",
+            url: "/TicketBooking/GetCustomerList",
             type: "GET",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -252,32 +253,39 @@
                 if (data) {
                     //debugger;
                     var table =
-                        "<table border=4>" +
-                        "<thead>" +
-                        "<td>Date</td>" +
-                        "<td>FullName</td>" +
-                        "<td>TicketType</td>" +
-                        "<td>TotalPeople</td> " +
-                        "<td>Price</td>" +
-                        "<td>Discount</td>" +
-                        "<td>NetAmount</td>" +
-                        "<td>Vat</td>" +
-                        "<td>TotalAmount</td>" +
-                        "<td>Action</td>" +
-                        "</thead > " +
+                        "<table style='border-collapse: collapse; width: 100%;'>" +
+                        "<thead style='background-color: #333; color: #fff;'>" +
+                        "<tr>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Date</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>FullName</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>TicketType</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>TotalPeople</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Price</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Discount</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>NetAmount</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Vat</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>TotalAmount</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Action</th>" +
+                        "</tr>" +
+                        "</thead>" +
                         "<tbody>";
 
-                    $.each(data, function (I, item) {
-                        table += "<tr><td>" + item.Date + "</td>";
-                        table += "<td>" + item.FullName + "</td>";
-                        table += "<td>" + item.TicketType + "</td>";
-                        table += "<td>" + item.TotalPeople + "</td>";
-                        table += "<td>" + item.Price + "</td>";
-                        table += "<td>" + item.Discount + "</td>";
-                        table += "<td>" + item.NetAmount + "</td>";
-                        table += "<td>" + item.Vat + "</td>";
-                        table += "<td>" + item.TotalAmount + "</td>";
-                        table += "<td>" + "<a href=''" + "</td></tr>";
+                    $.each(data, function (i, item) {
+                        table += "<tr>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.Date + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.FullName + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.TicketType + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.TotalPeople + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.Price + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.Discount + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.NetAmount + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.Vat + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.TotalAmount + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>";
+                        table += "<a href='#' onclick='editItem(" + item.Id + ")'><i class='fas fa-edit'></i></a>";
+                        table += "<a href='#' onclick='deleteItem(" + item.Id + ")'><i class='fas fa-trash'></i></a>";
+                        table += "</td>";
+                        table += "</tr>";
                     });
 
                     table += "</tbody>";
@@ -306,8 +314,7 @@
     function LoadDataByDate(date) {
 
         $.ajax({
-            //url = "/Welcome/GetCustomerListByDate?date=" + encodeURIComponent(date),
-            url: "/Welcome/GetCustomerListByDate",
+            url: "/TicketBooking/GetCustomerListByDate",
             type: "GET",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -315,51 +322,69 @@
                 date: date,
             },
             success: function (data) {
-                //debugger;
                 if (data) {
-                    //debugger;
                     var table =
-                        "<table border=4>" +
-                        "<thead>" +
-                        "<td>Date</td>" +
-                        "<td>FullName</td>" +
-                        "<td>TicketType</td>" +
-                        "<td>TotalPeople</td> " +
-                        "<td>Price</td>" +
-                        "<td>Discount</td>" +
-                        "<td>NetAmount</td>" +
-                        "<td>Vat</td>" +
-                        "<td>TotalAmount</td>" +
-                        "<td>Action</td>" +
-                        "</thead > " +
+                        "<table style='border-collapse: collapse; width: 100%;'>" +
+                        "<thead style='background-color: #333; color: #fff;'>" +
+                        "<tr>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Date</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>FullName</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>TicketType</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>TotalPeople</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Price</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Discount</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>NetAmount</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Vat</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>TotalAmount</th>" +
+                        "<th style='border: 1px solid #ddd; padding: 8px;'>Action</th>" +
+                        "</tr>" +
+                        "</thead>" +
                         "<tbody>";
 
-                    $.each(data, function (I, item) {
-                        table += "<tr><td>" + item.Date + "</td>";
-                        table += "<td>" + item.FullName + "</td>";
-                        table += "<td>" + item.TicketType + "</td>";
-                        table += "<td>" + item.TotalPeople + "</td>";
-                        table += "<td>" + item.Price + "</td>";
-                        table += "<td>" + item.Discount + "</td>";
-                        table += "<td>" + item.NetAmount + "</td>";
-                        table += "<td>" + item.Vat + "</td>";
-                        table += "<td>" + item.TotalAmount + "</td>";
-                        table += "<td>" + "<a href=''" + "</td></tr>";
+                    $.each(data, function (i, item) {
+                        table += "<tr>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.Date + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.FullName + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.TicketType + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.TotalPeople + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.Price + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.Discount + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.NetAmount + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.Vat + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>" + item.TotalAmount + "</td>";
+                        table += "<td style='border: 1px solid #ddd; padding: 8px;'>";
+                        table += "<a href='#' onclick='editItem(" + item.Id + ")'><i class='fa fa-edit'></i></a>";
+                        table += "<a href='#' onclick='deleteItem(" + item.Id + ")'><i class='fa fa-trash'></i></a>";
+                        table += "</td>";
+                        table += "</tr>";
                     });
 
                     table += "</tbody>";
                     table += "</table>";
 
                     $("#filterResult").html(table);
-
-
                 }
             }
-
         });
-
     };
 
+    function editItem(itemId) {
+        console.log("Edit item with ID: " + itemId);
+    }
+
+    function deleteItem(itemId) {
+            debugger;
+        $.ajax({
+            url: "/TicketBooking/DeleteTicket/" + itemId,
+            type: "DELETE", 
+            success: function (response) {
+                console.log("Item deleted successfully");
+            },
+            error: function (xhr, status, error) {
+                console.error("Error deleting item:", error);
+            }
+        });
+    }
 
 
 </script>
