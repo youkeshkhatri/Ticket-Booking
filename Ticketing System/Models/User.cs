@@ -11,7 +11,7 @@ namespace Ticketing_System.Models
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
-        public DateTime DOB { get; set; }
+        public string DOB { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
         public string Username { get; set; }

@@ -53,7 +53,7 @@ namespace Ticketing_System.Business_Logic
                             User u = new User();
                             u.Id = Convert.ToInt32(reader["Id"]);
                             u.FullName = reader["FullName"].ToString();
-                            u.DOB = Convert.ToDateTime(reader["DOB"].ToString());
+                            u.DOB = reader["DOB"].ToString();
                             u.Username = reader["Username"].ToString();
                             u.Password = reader["Password"].ToString();
                             u.Confirm_Password = reader["Confirm_Password"].ToString();
@@ -91,7 +91,7 @@ namespace Ticketing_System.Business_Logic
                             user = new User();
                             user.Id = Convert.ToInt32(reader["Id"]);
                             user.FullName = reader["FullName"].ToString();
-                            user.DOB = Convert.ToDateTime(reader["DOB"].ToString());
+                            user.DOB = reader["DOB"].ToString();
                             user.Username = reader["Username"].ToString();
                             user.Password = reader["Password"].ToString();
                             user.Confirm_Password = reader["Confirm_Password"].ToString();

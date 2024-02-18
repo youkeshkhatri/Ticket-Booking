@@ -1,4 +1,6 @@
-﻿@{
+﻿<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+@{
     Layout = null;
 }
 
@@ -11,53 +13,63 @@
 </head>
 
 <body>
-    <div>
-
-        <h2>Register your Account</h2>
-        <table>
-            <tr>
-                <td>Full Name:</td>
-                <td><input type="text" id="txtFullname" placeholder="Full Name" /></td>
-            </tr>
-
-            <tr>
-                <td>DOB:</td>
-                <td><input type="date" id="dob" /></td>
-            </tr>
-
-            <tr>
-                <td>Username:</td>
-                <td><input type="text" id="txtUsername" placeholder="Username" /></td>
-            </tr>
-
-
-            <tr>
-                <td>Password:</td>
-                <td><input type="password" id="txtPassword" placeholder="password" /></td>
-            </tr>
-
-            <tr>
-                <td>Confirm Password:</td>
-                <td><input type="password" id="confirmpassword" placeholder="Confirm password" /></td>
-            </tr>
-
-
-        </table>
-        <br />
-
-        <button id="btnSubmit">SUBMIT</button>
-        <button id="btnLoad">LOAD</button><br />
-        <div id="message"></div>
-
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="mb-4">Register Your Account</h2>
+                <form id="registrationForm">
+                    <div class="form-group row">
+                        <label for="txtFullname" class="col-sm-4 col-form-label">Full Name:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="txtFullname" placeholder="Full Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="dob" class="col-sm-4 col-form-label">DOB:</label>
+                        <div class="col-sm-8">
+                            <input type="date" class="form-control" id="dob">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="txtUsername" class="col-sm-4 col-form-label">Username:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="txtUsername" placeholder="Username">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="txtPassword" class="col-sm-4 col-form-label">Password:</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="txtPassword" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="confirmpassword" class="col-sm-4 col-form-label">Confirm Password:</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="confirmpassword" placeholder="Confirm Password">
+                        </div>
+                    </div>
+                </form>
+                <div class="row justify-content-center" id="buttonContainer">
+                    <div class="col-md-6 text-center">
+                        <button type="submit" id="btnSubmit" class="btn btn-primary">Submit</button>
+                        <button id="btnLoad" class="btn btn-info">LOAD</button><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6 text-center">
+                <p>Already have an account? <a href="@Url.Action("index", "User")" class="btn btn-link">Login</a></p>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6 text-center">
+                <div id="message"></div>
+            </div>
+        </div>
     </div>
-    <br />
-
-
-    <div>
-        <p>Have an Account? <button type="button" onclick="location.href = '@Url.Action("index", "User")'">LOGIN</button> </p>
-    </div>
-
 </body>
+
 </html>
 
 
@@ -66,7 +78,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         //debugger;
-        alert('Form loaded successfully');
+        //alert('Form loaded successfully');
 
         $("#txtFullname").on({
             mouseenter: function () {
@@ -79,61 +91,54 @@
                 $(this).css("background-color", "yellow");
             }
         });
-
-
-
-
-        $("#btnSubmit").click(function () {
-            //debugger;
-            var FullName = $("#txtFullname").val();
-            var DOB = $("#dob").val();
-            var Username = $("#txtUsername").val();
-            var Password = $("#txtPassword").val();
-            var Confirm_Password = $("#confirmpassword").val();
-
-
-            //ajax call
-
-            $.ajax({
-                url: "/User/AddUser",
-                type: "POST",
-                data: "{FullName:'" + FullName + "',DOB:'" + DOB + "',Username:'" + Username + "',Password:'" + Password
-                    + "',Confirm_Password:'" + Confirm_Password + "'}",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    //debugger;
-                    if (data == true) {
-
-                        //var table
-                        alert("Data saved to Database");
-
-                        $("#txtFullname").val("");
-                        $("#dob").val("");
-                        $("#txtUsername").val("");
-                        $("#txtPassword").val("");
-                        $("#confirmpassword").val("");
-
-                    }
-                    else {
-                        alert("Failed to save data")
-                    }
-                },
-
-            });
-
-
-
-        });
     });
 
 
-
-
-
-
-    $("#btnLoad").click(function () {
+    $("#btnSubmit").click(function () {
         //debugger;
+        var FullName = $("#txtFullname").val();
+        var DOB = $("#dob").val();
+        var Username = $("#txtUsername").val();
+        var Password = $("#txtPassword").val();
+        var Confirm_Password = $("#confirmpassword").val();
+
+
+        //ajax call
+
+        $.ajax({
+            url: "/User/AddUser",
+            type: "POST",
+            data: "{FullName:'" + FullName + "',DOB:'" + DOB + "',Username:'" + Username + "',Password:'" + Password
+                + "',Confirm_Password:'" + Confirm_Password + "'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                //debugger;
+                if (data == true) {
+
+                    //var table
+                    alert("User has been registered.");
+
+                    $("#txtFullname").val("");
+                    $("#dob").val("");
+                    $("#txtUsername").val("");
+                    $("#txtPassword").val("");
+                    $("#confirmpassword").val("");
+
+                }
+                else {
+                    alert("Failed to save data")
+                }
+            },
+
+        });
+
+    });
+
+
+    $("#btnLoad").click(function (event) {
+        //debugger;
+        event.preventDefault();
         LoadData();
     });
 
@@ -144,42 +149,38 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-               // debugger;
+                console.log("Data received:", data); // Log the received data
                 if (data) {
-                   // debugger;
                     var table =
-                        "<table border=1>" +
-                        "<thead>" +
-                        "<td>Id</td>" +
-                        "<td>FullName</td>" +
-                        "<td>DOB</td> " +
-                        "<td>Username</td>" +
-                        
-                        "<td>Password</td>" +
-                        "</thead > " +
+                        "<table class='table table-bordered'>" +
+                        "<thead class='thead-dark'>" +
+                        "<tr>" +
+                        "<th scope='col'>Id</th>" +
+                        "<th scope='col'>FullName</th>" +
+                        "<th scope='col'>DOB</th>" +
+                        "<th scope='col'>Username</th>" +
+                        "<th scope='col'>Password</th>" +
+                        "</tr>" +
+                        "</thead>" +
                         "<tbody>";
 
-                    $.each(data, function (I, item) {
-                        table += "<tr><td>" + item.Id + "</td>";
+                    $.each(data, function (i, item) {
+                        table += "<tr>";
+                        table += "<td>" + item.Id + "</td>";
                         table += "<td>" + item.FullName + "</td>";
                         table += "<td>" + item.DOB + "</td>";
                         table += "<td>" + item.Username + "</td>";
-                        
-                        table += "<td>" + item.Password + "</td></tr>";
+                        table += "<td>" + item.Password + "</td>";
+                        table += "</tr>";
                     });
 
                     table += "</tbody>";
                     table += "</table>";
 
                     $("#message").html(table);
-
-
                 }
             }
-
         });
-
-
     }
 
 </script>
