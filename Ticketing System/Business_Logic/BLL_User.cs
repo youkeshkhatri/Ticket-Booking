@@ -10,7 +10,7 @@ namespace Ticketing_System.Business_Logic
     public class BLL_User
     {
 
-        string connectionStr = "Data Source=DESKTOP-Q7GVR21; Initial Catalog=TicketingSystem; Integrated Security= true;";
+        string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
 
         public int AddUser(User user)
         {

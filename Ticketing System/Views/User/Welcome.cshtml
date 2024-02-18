@@ -181,6 +181,7 @@
         $("#btnConfirm").click(function () {
             //debugger;
             var Date = $("#txtDate").val();
+            console.log(Date)
             var FullName = $("#txtFullname").val();
             var ticketType = $("#txtTicketType").val();
             var price = $("#Price").val();
@@ -195,7 +196,7 @@
             $.ajax({
                 url: "/Welcome/AddCustomer",
                 type: "POST",
-                data: "{Date:'" + Date + "',TicketType:'" + FullName + "',TicketType:'" + ticketType + "',Price:'" + price
+                data: "{Date:'" + Date + "',FullName:'" + FullName + "',TicketType:'" + ticketType + "',Price:'" + price
                     + "',TotalPeople:'" + totalPeople + "',Discount:'" + discount + "',NetAmount:'" + netAmount
                     + "',Vat:'" + vat + "',TotalAmount:'" + totalAmount + "'}",
 
@@ -203,6 +204,7 @@
                 dataType: "json",
                 success: function (data) {
                     //debugger;
+                    //console.log(data);
                     if (data == true) {
 
                         alert("Data saved to Database");
@@ -262,6 +264,7 @@
                         "<td>NetAmount</td>" +
                         "<td>Vat</td>" +
                         "<td>TotalAmount</td>" +
+                        "<td>Action</td>" +
                         "</thead > " +
                         "<tbody>";
 
@@ -274,7 +277,8 @@
                         table += "<td>" + item.Discount + "</td>";
                         table += "<td>" + item.NetAmount + "</td>";
                         table += "<td>" + item.Vat + "</td>";
-                        table += "<td>" + item.TotalAmount + "</td></tr>";
+                        table += "<td>" + item.TotalAmount + "</td>";
+                        table += "<td>" + "<a href=''" + "</td></tr>";
                     });
 
                     table += "</tbody>";

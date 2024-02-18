@@ -49,7 +49,7 @@ namespace Ticketing_System.Controllers
         [HttpPost]
         public ActionResult index(LoginClass loginClass)
         {
-            string connectionStr = "Data Source=DESKTOP-Q7GVR21; Initial Catalog=TicketingSystem; Integrated Security= true;";
+            string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
             SqlConnection sqlconn = new SqlConnection(connectionStr);
             string sqlquery = "select Username, Password from dbo.tbl_UserDetails where Username = @Username and Password = @Password";
             sqlconn.Open();

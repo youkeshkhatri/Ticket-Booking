@@ -45,9 +45,9 @@
         </table>
         <br />
 
-        <div id="message"></div>
         <button id="btnSubmit">SUBMIT</button>
-        <button id="btnLoad">LOAD</button>
+        <button id="btnLoad">LOAD</button><br />
+        <div id="message"></div>
 
     </div>
     <br />
@@ -65,7 +65,7 @@
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        debugger;
+        //debugger;
         alert('Form loaded successfully');
 
         $("#txtFullname").on({
@@ -102,7 +102,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    debugger;
+                    //debugger;
                     if (data == true) {
 
                         //var table
@@ -133,7 +133,7 @@
 
 
     $("#btnLoad").click(function () {
-        debugger;
+        //debugger;
         LoadData();
     });
 
@@ -144,9 +144,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                debugger;
+               // debugger;
                 if (data) {
-                    debugger;
+                   // debugger;
                     var table =
                         "<table border=1>" +
                         "<thead>" +
@@ -154,8 +154,8 @@
                         "<td>FullName</td>" +
                         "<td>DOB</td> " +
                         "<td>Username</td>" +
+                        
                         "<td>Password</td>" +
-                        "<td>Confirm_Password</td>" +
                         "</thead > " +
                         "<tbody>";
 
@@ -164,8 +164,8 @@
                         table += "<td>" + item.FullName + "</td>";
                         table += "<td>" + item.DOB + "</td>";
                         table += "<td>" + item.Username + "</td>";
-                        table += "<td>" + item.Password + "</td>";
-                        table += "<td>" + item.Confirm_Password + "</td></tr>";
+                        
+                        table += "<td>" + item.Password + "</td></tr>";
                     });
 
                     table += "</tbody>";

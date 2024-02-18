@@ -9,7 +9,7 @@ namespace Ticketing_System.Business_Logic
 {
     public class BLL_TicketType
     {
-        string strConnection = "Data Source=DESKTOP-Q7GVR21; Initial Catalog=TicketingSystem; Integrated Security= true;";
+        string strConnection = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
 
         public List<TicketType> GetTicketTypes()
         {
