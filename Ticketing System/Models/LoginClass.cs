@@ -16,5 +16,6 @@ namespace Ticketing_System.Models
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public bool IsLoggedIn { get; set; }
     }
 }

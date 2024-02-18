@@ -47,11 +47,11 @@ namespace Ticketing_System.Controllers
         //For LOGIN
 
         [HttpPost]
-        public ActionResult index(LoginClass loginClass)
+        public ActionResult Index(LoginClass loginClass)
         {
             string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
             SqlConnection sqlconn = new SqlConnection(connectionStr);
-            string sqlquery = "select Username, Password from dbo.tbl_UserDetails where Username = @Username and Password = @Password";
+            string sqlquery = "select Username, Password, IsLoggedIn from dbo.tbl_UserDetails where Username = @Username and Password = @Password";
             sqlconn.Open();
             SqlCommand sqlcomm = new SqlCommand(sqlquery, sqlconn);
             sqlcomm.Parameters.AddWithValue("@Username", loginClass.UserName);
@@ -71,11 +71,22 @@ namespace Ticketing_System.Controllers
         }
 
 
-        public ActionResult Welcome()
-        {
-            return View();
-        }
+        /*
+         
+          if (sdr.Read())
+            {
+                Session["username"] = loginClass.UserName.ToString();
+                if (loginClass.IsLoggedIn)
+                {
+                    sqlquery = "Update dbo.tbl_UserDetails set IsLoggedIn = 1 where Username = @Username and Password = @Password";
+                    sqlcomm.ExecuteReader();
+                    return RedirectToAction("Welcome");
+                }
 
+                else
+                    return RedirectToAction("Index");
+            }
+         */
 
         //FOR TICKET DROPDOWN
 

@@ -43,11 +43,9 @@ namespace Ticketing_System.Controllers
                 return res;
             }
 
-            return 0; 
+            return 0;
 
         }
-
-
 
         [HttpGet]
         public List<welcome> GetCustomer()
@@ -79,11 +77,11 @@ namespace Ticketing_System.Controllers
                             w.NetAmount = Convert.ToInt32(reader["NetAmount"]);
                             w.Vat = Convert.ToInt32(reader["Vat"]);
                             w.TotalAmount = Convert.ToInt32(reader["TotalAmount"]);
-                            
+
                             list.Add(w);
 
                         }
-                        
+
                     }
 
                     return list;
@@ -92,12 +90,16 @@ namespace Ticketing_System.Controllers
 
         }
 
+        public JsonResult GetCustomerList()
+        {
+            return Json(GetCustomer(), JsonRequestBehavior.AllowGet);
+        }
 
-        public JsonResult GetCustomerList ()
+        public JsonResult GetCustomerListByDate(string date)
         {
             return Json(GetCustomer(), JsonRequestBehavior.AllowGet);
         }
 
     }
-    
+
 }
