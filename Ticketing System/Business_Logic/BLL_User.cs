@@ -68,5 +68,54 @@ namespace Ticketing_System.Business_Logic
             }
 
         }
+
+        public User GetUseByUsername(string username)
+        {
+            User user = new User();
+            using (SqlConnection connection = new SqlConnection(connectionStr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = "select * from tbl_UserDetails where Username = @Username";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.Connection = connection;
+                    cmd.Parameters.AddWithValue("@Username", username);
+
+                    connection.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            user = new User();
+                            user.Id = Convert.ToInt32(reader["Id"]);
+                            user.FullName = reader["FullName"].ToString();
+                            user.DOB = Convert.ToDateTime(reader["DOB"].ToString());
+                            user.Username = reader["Username"].ToString();
+                            user.Password = reader["Password"].ToString();
+                            user.Confirm_Password = reader["Confirm_Password"].ToString();
+
+                        }
+                    }
+
+                    return user;
+                }
+            }
+
+        }
+
+        public bool CheckLogin()
+        {
+            string username = HttpContext.Current.Session["username"] as string;
+            if (username == null)
+                return false;
+
+            var user = GetUseByUsername(username);
+            if (user != null)
+                return true;
+
+            return false;
+        }
     }
 }

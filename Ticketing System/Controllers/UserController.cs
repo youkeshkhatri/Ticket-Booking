@@ -60,7 +60,7 @@ namespace Ticketing_System.Controllers
             if(sdr.Read())
             {
                 Session["username"] = loginClass.UserName.ToString();
-                return RedirectToAction("Welcome");
+                return RedirectToAction("Index", "Welcome");
             }
             else
             {

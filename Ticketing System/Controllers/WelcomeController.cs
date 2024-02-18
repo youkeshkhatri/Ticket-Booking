@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ticketing_System.Business_Logic;
 using Ticketing_System.Models;
 
 namespace Ticketing_System.Controllers
@@ -13,7 +14,12 @@ namespace Ticketing_System.Controllers
         // GET: Welcome
         public ActionResult Index()
         {
-            return View();
+            BLL_User user = new BLL_User();
+            var status = user.CheckLogin();
+            if (status)
+                return View();
+
+            return RedirectToAction("Index", "User");
         }
 
         [HttpPost]
