@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using Ticketing_System.Business_Logic;
@@ -9,6 +10,8 @@ namespace Ticketing_System.Controllers
 {
     public class UserController : Controller
     {
+        readonly string connectionStr = ConfigurationManager.ConnectionStrings["TicketingSystemConnection"].ConnectionString;
+
         // GET: User
         public ActionResult Index()
         {
@@ -44,7 +47,7 @@ namespace Ticketing_System.Controllers
         [HttpPost]
         public ActionResult Index(LoginClass loginClass)
         {
-            string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
+            //string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
             SqlConnection sqlconn = new SqlConnection(connectionStr);
             string sqlquery = "select Username, Password, IsLoggedIn from dbo.tbl_UserDetails where Username = @Username and Password = @Password";
             sqlconn.Open();

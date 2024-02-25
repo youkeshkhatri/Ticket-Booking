@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -9,12 +10,12 @@ namespace Ticketing_System.Business_Logic
 {
     public class BLL_TicketType
     {
-        string strConnection = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
+        readonly string connectionStr = ConfigurationManager.ConnectionStrings["TicketingSystemConnection"].ConnectionString;
 
         public List<TicketType> GetTicketTypes()
         {
             List<TicketType> listTicketType = new List<TicketType>();
-            using (SqlConnection conn = new SqlConnection(strConnection))
+            using (SqlConnection conn = new SqlConnection(connectionStr))
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -46,7 +47,7 @@ namespace Ticketing_System.Business_Logic
         {
             TicketType tt = new TicketType();
 
-            using (SqlConnection conn = new SqlConnection(strConnection))
+            using (SqlConnection conn = new SqlConnection(connectionStr))
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {

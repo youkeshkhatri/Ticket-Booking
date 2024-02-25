@@ -4,13 +4,14 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using Ticketing_System.Models;
+using System.Configuration;
 
 namespace Ticketing_System.Business_Logic
 {
     public class BLL_User
     {
 
-        string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
+        readonly string connectionStr = ConfigurationManager.ConnectionStrings["TicketingSystemConnection"].ConnectionString;
 
         public int AddUser(User user)
         {

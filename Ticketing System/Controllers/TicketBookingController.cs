@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using Ticketing_System.Business_Logic;
@@ -9,6 +10,8 @@ namespace Ticketing_System.Controllers
 {
     public class TicketBookingController : Controller
     {
+        readonly string connectionStr = ConfigurationManager.ConnectionStrings["TicketingSystemConnection"].ConnectionString;
+
         // GET: Welcome
         public ActionResult Index()
         {
@@ -26,7 +29,7 @@ namespace Ticketing_System.Controllers
             if (ModelState.IsValid)
             {
 
-                string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
+                //string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
                 SqlConnection connection = new SqlConnection(connectionStr);
                 String pname = "proc_CustomerDetails";
                 connection.Open();
@@ -60,7 +63,7 @@ namespace Ticketing_System.Controllers
         [HttpGet]
         public List<welcome> GetCustomer(string date = null)
         {
-            string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
+            //string connectionStr = "Data Source=Youkesh; Initial Catalog=TicketingSystem; Integrated Security= true;";
             List<welcome> list = new List<welcome>();
             using (SqlConnection connection = new SqlConnection(connectionStr))
             {
